@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}My Bookings | TripMoreee{% endblock %}
+
+{% block content %}
+
+<style>
+.page-hero{
+    background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),
+    url("https://images.unsplash.com/photo-1502920917128-1aa500764cbd") center/cover;
+    height:40vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
+}
+.page-hero h1{ font-size:42px; }
+
+.booking-section{
+    background:#f8f5ef;
+    padding:80px 20px;
+}
+
+.invoice{
+    max-width:1000px;
+    margin:40px auto;
+    background:white;
+    padding:40px;
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.1);
+}
+
+.invoice-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.company{
+    font-size:20px;
+    font-weight:600;
+    color:gold;
+}
+
+.section-title{
+    margin-top:30px;
+    font-weight:600;
+    border-bottom:2px solid #eee;
+    padding-bottom:5px;
+}
+
+.details p{
+    margin:6px 0;
+    font-size:14px;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.table th{
+    background:black;
+    color:white;
+    padding:10px;
+}
+
+.table td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+}
+
+.total-box{
+    margin-top:25px;
+    text-align:right;
+    font-size:18px;
+    font-weight:600;
+}
+</style>
+
+<div class="page-hero">
+    <h1>📜 My Booking Invoices</h1>
+</div>
+
+<div class="booking-section">
+
+{% if bookings %}
+
+{% for item in bookings %}
+
+<div class="invoice">
+
+    <div class="invoice-header">
+        <div>
+            <div class="company">TripMoreee Travel Pvt Ltd</div>
+            <div>Invoice ID: #{{ item.booking.id }}</div>
+            <div>Destination: {{ item.booking.destination }}</div>
+        </div>
+        <div>
+            {{ item.booking.status|capitalize }}
+        </div>
+        <div>
+            <a href="{{ url_for('download_invoice', booking_id=item.booking.id) }}" 
+               class="btn btn-dark">Download PDF</a>
+
+            <button 
+               class="btn btn-success"
+               onclick="sendInvoice({{ item.booking.id }})">
+               Send to Email
+            </button>
+        </div>
+    </div>
+
+    {% if item.hotel %}
+    <div class="section-title">🏨 Hotel Details</div>
+    <div class="details">
+        <p><strong>Check-In:</strong> {{ item.hotel.check_in }}</p>
+        <p><strong>Check-Out:</strong> {{ item.hotel.check_out }}</p>
+        <p><strong>Hotel Amount:</strong> ₹ {{ item.hotel_total }}</p>
+    </div>
+    {% endif %}
+
+    {% if item.transports %}
+    <div class="section-title">🚍 Transport Details</div>
+    <table class="table">
+        <tr>
+            <th>Type</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Persons</th>
+            <th>Price</th>
+        </tr>
+        {% for t in item.transports %}
+        <tr>
+            <td>{{ t.transport.transport_type|capitalize }}</td>
+            <td>{{ t.transport.source }}</td>
+            <td>{{ t.transport.destination }}</td>
+            <td>{{ t.transport.persons }}</td>
+            <td>₹ {{ t.transport.price }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if item.cab_days %}
+    <div class="section-title">🚖 Cab Details</div>
+    {% for day in item.cab_days %}
+    <div style="margin-top:15px; padding:15px; background:#f9f9f9; border-radius:10px;">
+        <strong>Day {{ day.day }}</strong><br>
+        Time: {{ day.arrival }} - {{ day.departure }}<br>
+        Pickup: {{ day.pickup|capitalize }}<br>
+        Drop: {{ day.drop|capitalize }}<br>
+        KM: {{ day.km }} km<br>
+        Price: ₹ {{ day.price }}
+    </div>
+    {% endfor %}
+    <div style="margin-top:15px;">
+        <strong>Total Cab Amount: ₹ {{ item.cab_total }}</strong>
+    </div>
+    {% endif %}
+
+    <div class="section-title">🧾 Final Bill</div>
+    <div class="total-box">
+        Hotel Total: ₹ {{ item.hotel_total }} <br>
+        Transport Total: ₹ {{ item.transport_total }} <br>
+        Cab Total: ₹ {{ item.cab_total }} <br>
+        <hr>
+        Grand Total: ₹ {{ item.grand_total }}
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+<h3 style="text-align:center;">No bookings yet!</h3>
+{% endif %}
+
+</div>
+
+<script>
+function sendInvoice(bookingId){
+    fetch(`/send-invoice/${bookingId}`)
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            alert("✅ " + data.message);
+        } else {
+            alert("Something went wrong");
+        }
+    })
+    .catch(error => {
+        alert("Error sending invoice");
+    });
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,165 @@
+/* ================= WRAPPER ================= */
+.booking-wrapper{
+    display:flex;
+    gap:40px;
+    margin:60px auto;
+    max-width:1400px;
+    align-items:flex-start;
+    animation: fadeUp 0.9s ease;
+}
+
+/* ================= LEFT CARD ================= */
+.booking-card{
+    flex:3;
+    background:#fffaf3;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.08);
+    transform:translateX(-40px);
+    opacity:0;
+    animation: slideLeft 0.9s ease forwards;
+}
+
+/* ================= FORM GRID ================= */
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.full{ grid-column:span 2; }
+
+.booking-card input,
+.booking-card select{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    transition:0.3s ease;
+    background:#ffffff;
+}
+
+.booking-card input:focus,
+.booking-card select:focus{
+    outline:none;
+    border-color:#c6a75e;
+    box-shadow:0 0 0 3px rgba(198,167,94,0.15);
+    transform:scale(1.02);
+}
+
+/* ================= SUMMARY ================= */
+.summary-box{
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    margin-top:15px;
+    border:1px solid #ead8c0;
+    transition:0.4s ease;
+}
+
+.summary-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.08);
+}
+
+/* ================= BUTTONS ================= */
+.confirm-btn{
+    grid-column:span 2;
+    margin-top:20px;
+    padding:16px;
+    background:linear-gradient(135deg,#c6a75e,#e6c77a);
+    color:#2b2b2b;
+    border:none;
+    border-radius:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.4s ease;
+}
+
+.confirm-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(198,167,94,0.35);
+}
+
+.apply-btn{
+    background:#3e2a1c;
+    color:white;
+    border:none;
+    padding:9px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:5px;
+    transition:0.3s ease;
+}
+
+.apply-btn:hover{
+    transform:translateY(-3px);
+    background:#5a3f2e;
+}
+
+/* ================= ERROR ================= */
+.error-box{
+    background:#fff0f0;
+    color:#b30000;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+/* ================= RIGHT SIDE ================= */
+.hotel-details{
+    flex:1;
+    background:#fffaf3;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.08);
+    font-size:14px;
+    transform:translateX(40px);
+    opacity:0;
+    animation: slideRight 0.9s ease forwards;
+    animation-delay:0.2s;
+}
+
+.hotel-details ul{
+    list-style:none;
+    padding:0;
+}
+
+.hotel-details li{
+    padding:8px 0;
+    opacity:0;
+    transform:translateY(20px);
+    animation: fadeItem 0.6s ease forwards;
+}
+
+.hotel-details li:nth-child(1){animation-delay:0.3s;}
+.hotel-details li:nth-child(2){animation-delay:0.4s;}
+.hotel-details li:nth-child(3){animation-delay:0.5s;}
+.hotel-details li:nth-child(4){animation-delay:0.6s;}
+.hotel-details li:nth-child(5){animation-delay:0.7s;}
+.hotel-details li:nth-child(6){animation-delay:0.8s;}
+.hotel-details li:nth-child(7){animation-delay:0.9s;}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:992px){
+    .booking-wrapper{flex-direction:column;}
+    .form-grid{grid-template-columns:1fr;}
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(50px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes slideLeft{
+    to{opacity:1; transform:translateX(0);}
+}
+
+@keyframes slideRight{
+    to{opacity:1; transform:translateX(0);}
+}
+
+@keyframes fadeItem{
+    to{opacity:1; transform:translateY(0);}
+}

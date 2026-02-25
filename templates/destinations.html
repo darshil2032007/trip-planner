@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Explore Destinations{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/destinations.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">What kind of vacation are you planning?</h1>
+<p class="subtitle">Select a vacation type or search destinations</p>
+
+<div class="vacation-types">
+    <div class="vacation-card" onclick="loadDestinations('honeymoon')">Honeymoon</div>
+    <div class="vacation-card" onclick="loadDestinations('family')">Family</div>
+    <div class="vacation-card" onclick="loadDestinations('adventure')">Adventure</div>
+    <div class="vacation-card" onclick="loadDestinations('spiritual')">Spiritual</div>
+    <div class="vacation-card" onclick="loadDestinations('solo')">Solo</div>
+</div>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search destination (Goa, Paris...)">
+    <button onclick="searchDestinations()">Search</button>
+    <button class="secondary" onclick="loadAllDestinations()">See All</button>
+</div>
+
+<hr>
+
+<div id="destinations-container"></div>
+
+<script src="{{ url_for('static', filename='js/destinations.js') }}"></script>
+
+{% endblock %}

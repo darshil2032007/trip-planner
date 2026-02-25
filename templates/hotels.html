@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Hotels{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hotels.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper">
+    <h2>Available Hotels in {{ destination.name }}</h2>
+
+<!-- ===== LOCAL GUIDE BANNER ===== -->
+<div class="local-guide-banner">
+    <h4>🌍 Know Before You Travel</h4>
+    <p>Discover local food, safety tips, etiquettes & alerts for {{ destination.name }}</p>
+
+    <a href="{{ url_for('culture_page', location=destination.name) }}" 
+       class="guide-btn">
+       🧭 View Full Travel Guide →
+    </a>
+</div>
+
+    
+    <div id="hotelContainer" class="hotel-container"></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const container = document.getElementById("hotelContainer");
+    const destinationId = {{ destination.id }};
+    const DEFAULT_IMAGE = "{{ url_for('static', filename='images/hotel_default.jpg') }}";
+
+    fetch(`/api/hotels/${destinationId}`)
+    .then(res => res.json())
+    .then(data => {
+
+        if (!data || data.length === 0) {
+            container.innerHTML = "<p>No hotels found</p>";
+            return;
+        }
+
+        container.innerHTML = "";
+
+        data.forEach(hotel => {
+
+            let roomHTML = hotel.rooms.map(room => `
+                <p>🛏 ${room.type} - ${room.available} Rooms - ₹${room.price}</p>
+            `).join("");
+
+            let amenitiesHTML = hotel.amenities.length > 0
+                ? hotel.amenities.join(", ")
+                : "Basic Amenities";
+
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            card.style.animationDelay = `${data.indexOf(hotel) * 0.1}s`;
+
+
+            card.innerHTML = `
+                <div class="image-wrapper">
+                    <img src="${DEFAULT_IMAGE}" class="hotel-img" alt="hotel image">
+                </div>
+
+                <div class="hotel-info">
+                    <h3>${hotel.hotel}</h3>
+                    <p>⭐ ${hotel.stars} Rating</p>
+                    <p>💰 Starting From ₹${hotel.price}</p>
+                    <p>🛏 Total Available Rooms: ${hotel.available_rooms}</p>
+                    <p>🏨 ${amenitiesHTML}</p>
+
+                    <div class="room-section">
+                        ${roomHTML}
+                    </div>
+
+                    <a href="/book-hotel/${hotel.id}" class="book-btn">
+                        Book Now
+                    </a>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    })
+    .catch(err => {
+        console.error(err);
+        container.innerHTML = "<p>Error loading hotels</p>";
+    });
+
+});
+</script>
+
+{% endblock %}

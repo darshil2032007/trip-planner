@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}About | TripMoreee{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ================= GLOBAL ================= */
+body{
+    background: linear-gradient(135deg,#fdf6ec,#f1e4d3);
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+}
+
+/* ================= BRAND HEADER ================= */
+.brand-header{
+    text-align:center;
+    padding:120px 20px 40px 20px;
+}
+
+.brand-header h1{
+    font-size:60px;
+    font-weight:800;
+    color:#5a3f2e;
+    letter-spacing:1px;
+    animation: slideDown 1s ease forwards;
+}
+
+.brand-header span{
+    color:#c6a75e;
+}
+
+.brand-line{
+    width:0;
+    height:3px;
+    background:#c6a75e;
+    margin:20px auto 0 auto;
+    border-radius:10px;
+    animation: expandLine 1.2s ease forwards;
+}
+
+/* ================= HERO MESSAGE ================= */
+.hero-message{
+    text-align:center;
+    max-width:900px;
+    margin:60px auto 120px auto;
+    padding:0 20px;
+    opacity:0;
+    animation: fadeUp 1.4s ease forwards;
+}
+
+.hero-message h2{
+    font-size:38px;
+    color:#5a3f2e;
+    margin-bottom:20px;
+}
+
+.hero-message p{
+    font-size:18px;
+    line-height:1.8;
+    color:#7a5c43;
+}
+
+/* ================= FEATURE GRID ================= */
+.section-grid{
+    max-width:1200px;
+    margin:auto;
+    padding:0 20px 120px 20px;
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap:40px;
+}
+
+/* ================= CARD ================= */
+.feature-card{
+    background:#fffaf3;
+    padding:45px 35px;
+    border-radius:30px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.06);
+    transition:0.5s ease;
+    transform:perspective(1000px) rotateY(8deg);
+    opacity:0;
+    animation: cardEnter 1s ease forwards;
+}
+
+.feature-card:nth-child(2){animation-delay:0.2s;}
+.feature-card:nth-child(3){animation-delay:0.4s;}
+.feature-card:nth-child(4){animation-delay:0.6s;}
+
+.feature-card:hover{
+    transform:perspective(1000px) rotateY(-8deg) translateY(-12px);
+    box-shadow:0 30px 60px rgba(0,0,0,0.12);
+}
+
+.feature-card h3{
+    color:#5a3f2e;
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.feature-card p{
+    color:#7a5c43;
+    line-height:1.7;
+}
+
+/* ================= SOLUTION SECTION ================= */
+.solution-strip{
+    background:#3e2a1c;
+    padding:120px 20px;
+    text-align:center;
+    color:white;
+}
+
+.solution-strip h2{
+    font-size:40px;
+    margin-bottom:25px;
+    letter-spacing:1px;
+}
+
+.solution-strip p{
+    max-width:900px;
+    margin:auto;
+    font-size:18px;
+    line-height:1.8;
+    color:#e8d8c3;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes slideDown{
+    from{opacity:0; transform:translateY(-60px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes expandLine{
+    from{width:0;}
+    to{width:120px;}
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(60px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes cardEnter{
+    from{
+        opacity:0;
+        transform:perspective(1000px) rotateY(20deg) translateY(60px);
+    }
+    to{
+        opacity:1;
+        transform:perspective(1000px) rotateY(8deg) translateY(0);
+    }
+}
+
+@media(max-width:768px){
+    .brand-header h1{
+        font-size:38px;
+    }
+    .hero-message h2{
+        font-size:26px;
+    }
+}
+
+</style>
+
+<!-- BRAND -->
+<div class="brand-header">
+    <h1>Trip<span>Moreee</span></h1>
+    <div class="brand-line"></div>
+</div>
+
+<!-- HERO MESSAGE -->
+<div class="hero-message">
+    <h2>Designed to Solve Real Travel Planning Challenges</h2>
+    <p>
+        TripMoreee was built to simplify destination planning by integrating hotel discovery,
+        transparent booking information, cultural insights, and local safety guidance
+        into a single streamlined platform.
+    </p>
+</div>
+
+<!-- FEATURES -->
+<div class="section-grid">
+
+    <div class="feature-card">
+        <h3>Centralized Travel Information</h3>
+        <p>
+            Instead of switching between multiple websites, users can explore hotels,
+            hidden street food, safety zones, local etiquettes, and essential alerts
+            within one structured interface.
+        </p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Integrated Safety & Local Guidance</h3>
+        <p>
+            The platform provides night safety zones, scam awareness information,
+            emergency doctor contacts, and weather alerts to help travelers
+            make informed decisions before arrival.
+        </p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Transparent Hotel Availability</h3>
+        <p>
+            Real-time room availability, clear pricing structure,
+            and structured booking details reduce confusion and
+            eliminate uncertainty in the reservation process.
+        </p>
+    </div>
+
+    <div class="feature-card">
+        <h3>Context-Aware Destination Experience</h3>
+        <p>
+            Each destination includes cultural etiquette guidance
+            and local highlights, allowing travelers to prepare
+            beyond just accommodation.
+        </p>
+    </div>
+
+</div>
+
+<!-- SOLUTION STRIP -->
+<div class="solution-strip">
+    <h2>A Unified Travel Planning Experience</h2>
+    <p>
+        By combining booking infrastructure with destination intelligence,
+        TripMoreee addresses the fragmentation commonly found in travel platforms.
+        The result is a cleaner, safer, and more informed planning journey.
+    </p>
+</div>
+
+{% endblock %}

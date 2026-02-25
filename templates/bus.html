@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Bus Search | TripMoreee{% endblock %}
+
+{% block content %}
+
+<style>
+
+.transport-hero{
+    background: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),
+    url("https://images.unsplash.com/photo-1570125909232-eb263c188f7e") center/cover;
+    height:50vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
+    animation: fadeIn 1.2s ease;
+}
+
+.transport-hero h1{
+    font-size:42px;
+}
+
+.search-section{
+    padding:80px 20px;
+    background:#f8f5ef;
+}
+
+.search-box{
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    padding:40px;
+    border-radius:18px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.1);
+    animation: slideUp 1s ease;
+}
+
+.search-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.search-box input,
+.search-box select{
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.search-btn{
+    background:gold;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.search-btn:hover{
+    background:#ffd700;
+}
+
+.table-section{
+    margin-top:50px;
+    animation: fadeIn 1.5s ease;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    text-align:center;
+}
+
+th{
+    background:black;
+    color:white;
+}
+
+tr:hover{
+    background:#f3f3f3;
+}
+
+.confirm-btn{
+    background:black;
+    color:white;
+    padding:6px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.confirm-btn:hover{
+    background:gold;
+    color:black;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+@keyframes slideUp{
+    from{transform:translateY(50px); opacity:0;}
+    to{transform:translateY(0); opacity:1;}
+}
+
+</style>
+
+<div class="transport-hero">
+    <h1>🚌 Bus Search</h1>
+</div>
+
+<div class="search-section">
+    <div class="search-box">
+
+        <form method="POST" class="search-grid">
+             <select name="source" required>
+    <option value="">Select Source</option>
+    <option value="Ahmedabad">Ahmedabad</option>
+    <option value="Delhi">Delhi</option>
+    <option value="Mumbai">Mumbai</option>
+    <option value="Rajasthan">Rajasthan</option>
+    <option value="Hyderabad">Hyderabad</option>
+    <option value="Kolkata">Kolkata</option>
+    <option value="Chennai">Chennai</option>
+    <option value="Bangalore">Bangalore</option>
+    
+</select>
+            <input type="text" name="destination" value="{{ destination }}" readonly>
+            <input type="number" name="persons" value="{{ persons }}" readonly>
+
+            <select name="ac_type" required>
+                <option value="">AC Type</option>
+                <option value="AC">AC</option>
+                <option value="Non-AC">Non-AC</option>
+            </select>
+
+            <select name="seat_type" required>
+                <option value="">Seat Type</option>
+                <option value="Sleeper">Sleeper</option>
+                <option value="Seater">Seater</option>
+            </select>
+
+            <button class="search-btn">Search Buses</button>
+        </form>
+
+        {% if buses %}
+        <div class="table-section">
+            <table>
+                <tr>
+                    <th>Bus</th>
+                    <th>Operator</th>
+                    <th>AC</th>
+                    <th>Seat</th>
+                    <th>Time</th>
+                    <th>Seats</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                {% for b in buses %}
+                <tr>
+                    <td>{{ b.bus_number }}</td>
+                    <td>{{ b.operator }}</td>
+                    <td>{{ b.ac_type }}</td>
+                    <td>{{ b.seat_type }}</td>
+                    <td>{{ b.departure_time }} - {{ b.arrival_time }}</td>
+                    <td>{{ b.available_seats }}</td>
+                    <td>₹{{ b.price }}</td>
+                    <td>
+                        <a href="{{ url_for('confirm_bus', bus_id=b.id) }}" class="confirm-btn">
+                            Confirm
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
